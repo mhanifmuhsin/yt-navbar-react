@@ -1,8 +1,10 @@
 import React from 'react';
-import { Link } from "react-router-dom";
+import routes from './routes'
+import { Link, Switch, Route } from "react-router-dom";
 
 const Navbar = () => {
     return (
+        <React.Suspense fallback={<div>Loading...</div>}>
         <div>
             <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
                 <Link className="navbar-brand" href="#">Navbar</Link>
@@ -13,20 +15,20 @@ const Navbar = () => {
                 <div className="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul className="navbar-nav mr-auto">
                         <li className="nav-item active">
-                            <Link className="nav-link" href="#">Home <span className="sr-only">(current)</span></Link>
+                            <Link to="/" className="nav-link" >Home <span className="sr-only">(current)</span></Link>
                         </li>
                         <li className="nav-item">
-                            <Link className="nav-link" href="#">Link</Link>
+                            <Link to="/profile"className="nav-link">Profile</Link>
                         </li>
                         <li className="nav-item dropdown">
                             <Link className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Dropdown
+                                Students
                             </Link>
                             <div className="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <Link className="dropdown-item" href="#">Action</Link>
-                                <Link className="dropdown-item" href="#">Another action</Link>
+                                <Link to="/students/JuniorStudent" className="dropdown-item">Junior High School</Link>
+                                <Link className="dropdown-item" href="#">Senior High School</Link>
                                 <div className="dropdown-divider"></div>
-                                <Link className="dropdown-item" href="#">Something else here</Link>
+                                <Link className="dropdown-item" href="#">Elementary School</Link>
                             </div>
                         </li>
                         <li className="nav-item">
@@ -39,7 +41,21 @@ const Navbar = () => {
                     </form>
                 </div>
             </nav>
+            <div>
+                <Switch>
+                    {routes.map((route, i) => {
+                        const {
+                            path,
+                            Component
+                        } = route
+                        return <Route key={i} path={path}>
+                            <Component />
+                        </Route>
+                    })}
+                </Switch>
+            </div>
         </div>
+        </React.Suspense>
     )
 }
 
